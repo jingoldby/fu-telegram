@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 import os
 
 postgres_url = os.environ["TELEGRAM_BOT_POSTGRES_URL"]
-
+print(postgres_url)
 
 '''
 This model has been referenced from: https://www.pythoncentral.io/sqlalchemy-orm-examples/

@@ -269,7 +269,7 @@ class TelegramMonitorBot:
 
         # Create the EventHandler and pass it your bot's token.
         updater = Updater(os.environ["TELEGRAM_BOT_TOKEN"])
-
+        print(updater)
         # Get the dispatcher to register handlers
         dp = updater.dispatcher
 
