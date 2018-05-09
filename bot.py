@@ -175,7 +175,6 @@ class TelegramMonitorBot:
         """ Primary Logger. Handles incoming bot messages and saves them to DB """
         try:
             user = update.message.from_user
-            print(update.message.chat_id)
             # Limit bot to monitoring certain chats
             if update.message.chat_id not in self.chat_ids:
                 print("Message from user {} is from chat_id not being monitored: {}".format(
@@ -269,9 +268,7 @@ class TelegramMonitorBot:
         """ Start the bot. """
 
         # Create the EventHandler and pass it your bot's token.
-        print(os.environ["TELEGRAM_BOT_TOKEN"])
         updater = Updater(os.environ["TELEGRAM_BOT_TOKEN"])
-        print(updater)
         # Get the dispatcher to register handlers
         dp = updater.dispatcher
 
