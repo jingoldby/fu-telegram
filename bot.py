@@ -24,7 +24,6 @@ class TelegramMonitorBot:
 
     def __init__(self):
         self.debug = os.environ.get('DEBUG') is not None
-
         # Users to notify of violoations
         self.notify_user_ids = (
             list(map(int, os.environ['NOTIFY_USER_IDS'].split(',')))
@@ -78,7 +77,7 @@ class TelegramMonitorBot:
             log_message = "Ban match full name: {}".format(full_name.encode('utf-8'))
             if self.debug:
                 update.message.reply_text(log_message)
-            print(log_message)
+
             for notify_user_id in self.notify_user_ids:
                 print (notify_user_id,"gets notified")
                 bot.send_message(
@@ -126,6 +125,7 @@ class TelegramMonitorBot:
         # https://github.com/wanderingstan/Confusables
 
         if self.message_ban_re and self.message_ban_re.search(message):
+            print('message_ban')
             # Logging
             log_message = "Ban message match: {}".format(update.message.text.encode('utf-8'))
             if self.debug:
@@ -149,11 +149,12 @@ class TelegramMonitorBot:
             s.close()
 
         elif self.message_hide_re and self.message_hide_re.search(message):
+            print('message_hide')
             # Logging
             log_message = "Hide match: {}".format(update.message.text.encode('utf-8'))
-            if self.debug:
+            if self.debug != False:
                 update.message.reply_text(log_message)
-            print(log_message)
+
             for notify_user_id in self.notify_user_ids:
                 bot.send_message(
                     chat_id=notify_user_id,
@@ -174,7 +175,7 @@ class TelegramMonitorBot:
         """ Primary Logger. Handles incoming bot messages and saves them to DB """
         try:
             user = update.message.from_user
-
+            print(update.message.chat_id)
             # Limit bot to monitoring certain chats
             if update.message.chat_id not in self.chat_ids:
                 print("Message from user {} is from chat_id not being monitored: {}".format(
@@ -268,6 +269,7 @@ class TelegramMonitorBot:
         """ Start the bot. """
 
         # Create the EventHandler and pass it your bot's token.
+        print(os.environ["TELEGRAM_BOT_TOKEN"])
         updater = Updater(os.environ["TELEGRAM_BOT_TOKEN"])
         print(updater)
         # Get the dispatcher to register handlers
